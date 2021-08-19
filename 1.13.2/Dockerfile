@@ -31,7 +31,7 @@ RUN set -e -x && \
       -DOPENSSL_NO_HEARTBEATS \
       -fstack-protector-strong && \
     make depend && \
-    make && \
+    make -j$(nproc) && \
     make install_sw && \
     apt-get purge -y --auto-remove \
       $build_deps && \
@@ -79,6 +79,7 @@ RUN build_deps="curl gcc libc-dev libevent-dev libexpat1-dev libnghttp2-dev make
         --enable-tfo-server \
         --enable-tfo-client \
         --enable-event-api && \
+    make -j$(nproc) && \
     make install && \
     mv /opt/unbound/etc/unbound/unbound.conf /opt/unbound/etc/unbound/unbound.conf.example && \
     apt-get purge -y --auto-remove \
